@@ -3,780 +3,717 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>조문 감사 메시지 작성 도우미</title>
+    <title>사망 행정처리 체크리스트 - 공무원 자녀용 포함</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
-        
+
         .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
             background: white;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            max-width: 600px;
-            width: 100%;
-            padding: 40px;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-        
-        .subtitle {
-            text-align: center;
-            color: #666;
+            padding: 30px;
             margin-bottom: 30px;
-            font-size: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 500;
-            font-size: 14px;
-        }
-        
-        select, input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            background: white;
-        }
-        
-        select:focus, input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        .radio-group {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .radio-option {
-            position: relative;
-            flex: 1;
-            min-width: 100px;
-        }
-        
-        .radio-option input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-            z-index: 2;
-        }
-        
-        .radio-label {
-            display: block;
-            padding: 10px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-        
-        .radio-option input[type="radio"]:checked + .radio-label {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-color: transparent;
-        }
-        
-        .radio-option:hover .radio-label {
-            border-color: #667eea;
-        }
-        
-        button {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-        
-        button:active {
-            transform: translateY(0);
-        }
-        
-        .message-container {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border: 2px solid #e0e0e0;
-            animation: slideUp 0.3s ease;
-        }
-        
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .message-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .message-title {
-            font-weight: 600;
+
+        .header h1 {
             color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
         }
-        
-        .action-buttons {
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .filter-container {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
-        
-        .btn-small {
-            padding: 8px 15px;
-            font-size: 13px;
-            border-radius: 8px;
-            border: none;
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
         }
-        
-        .btn-copy {
+
+        .filter-btn.active {
             background: #667eea;
             color: white;
         }
-        
-        .btn-copy:hover {
-            background: #5a67d8;
-        }
-        
-        .btn-regenerate {
-            background: #48bb78;
-            color: white;
-        }
-        
-        .btn-regenerate:hover {
-            background: #38a169;
-        }
-        
-        .message-text {
-            padding: 15px;
+
+        .progress-container {
             background: white;
-            border-radius: 8px;
-            line-height: 1.8;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            border-radius: 15px;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-card.hidden {
+            display: none;
+        }
+
+        .category-header {
+            padding: 20px;
+            color: white;
+            position: relative;
+        }
+
+        .category-header.purple { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .category-header.green { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .category-header.orange { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .category-header.blue { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .category-header.yellow { background: linear-gradient(135deg, #fa709a, #fee140); }
+        .category-header.red { background: linear-gradient(135deg, #f43b47, #453a94); }
+        .category-header.teal { background: linear-gradient(135deg, #23d5ab, #23a6d5); }
+        .category-header.indigo { background: linear-gradient(135deg, #5c258d, #4389a2); }
+
+        .category-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.3);
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            margin-left: 10px;
+        }
+
+        .category-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .category-deadline {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .category-progress {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .checklist {
+            padding: 20px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .checklist-item:hover {
+            background: #e9ecef;
+        }
+
+        .checklist-item.completed {
+            background: #d4edda;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .checklist-text {
+            flex: 1;
+        }
+
+        .checklist-title {
+            font-weight: bold;
             color: #333;
-            white-space: pre-wrap;
-            min-height: 100px;
-            border: 1px solid #e0e0e0;
-            font-size: 15px;
-            outline: none;
+            margin-bottom: 5px;
         }
-        
-        .message-text:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+
+        .checklist-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
         }
-        
-        .toast {
+
+        .documents {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .doc-tag {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            font-size: 11px;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+
+        .deadline-warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .reset-button {
             position: fixed;
             bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
+            right: 30px;
+            background: #dc3545;
             color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 1000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(220,53,69,0.3);
+            transition: all 0.3s ease;
         }
-        
-        .toast.show {
-            opacity: 1;
+
+        .reset-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(220,53,69,0.4);
         }
-        
-        .info-box {
-            background: #f0f4ff;
-            padding: 15px;
+
+        .save-indicator {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
             border-radius: 10px;
-            margin-bottom: 20px;
-            border-left: 4px solid #667eea;
-            font-size: 14px;
-            color: #555;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 22px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🙏 조문 감사 메시지</h1>
-        <p class="subtitle">조문해 주신 분들께 상황에 맞는 감사 인사를 전해보세요</p>
-        
-        <div class="info-box">
-            💡 상주와 고인과의 관계에 따라 적절한 메시지를 생성해드립니다. 생성된 메시지는 자유롭게 수정하실 수 있습니다.
+        <div class="header">
+            <h1>🏛️ 사망 행정처리 체크리스트</h1>
+            <p>사망 후 필요한 모든 행정절차를 체계적으로 관리하세요 (공무원 자녀 절차 포함)</p>
         </div>
-        
-        <div class="form-group">
-            <label for="mournerRelation">상주와 고인과의 관계 *</label>
-            <select id="mournerRelation">
-                <option value="">선택해주세요</option>
-                <option value="son_father">아들 - 부친상</option>
-                <option value="son_mother">아들 - 모친상</option>
-                <option value="daughter_father">딸 - 부친상</option>
-                <option value="daughter_mother">딸 - 모친상</option>
-                <option value="soninlaw_father">사위 - 빙부상(장인)</option>
-                <option value="soninlaw_mother">사위 - 빙모상(장모)</option>
-                <option value="daughterinlaw_father">며느리 - 시부상(시아버지)</option>
-                <option value="daughterinlaw_mother">며느리 - 시모상(시어머니)</option>
-                <option value="spouse_husband">아내 - 남편상</option>
-                <option value="spouse_wife">남편 - 아내상</option>
-                <option value="grandchild_grandfather">손자/손녀 - 조부상</option>
-                <option value="grandchild_grandmother">손자/손녀 - 조모상</option>
-            </select>
+
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterCategories('all')">🔍 전체보기</button>
+            <button class="filter-btn" onclick="filterCategories('general')">👥 일반 절차</button>
+            <button class="filter-btn" onclick="filterCategories('public')">👔 공무원 자녀 전용</button>
         </div>
-        
-        <div class="form-group">
-            <label for="visitorRelation">조문객과의 관계 *</label>
-            <select id="visitorRelation">
-                <option value="">선택해주세요</option>
-                <option value="friend">친구</option>
-                <option value="colleague">직장 동료</option>
-                <option value="boss">직장 상사</option>
-                <option value="subordinate">직장 후배</option>
-                <option value="relative">친척/친지</option>
-                <option value="teacher">선생님/은사님</option>
-                <option value="neighbor">이웃</option>
-                <option value="acquaintance">지인</option>
-                <option value="business">거래처/사업 관계자</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="condolenceType">조문 방식 *</label>
-            <select id="condolenceType">
-                <option value="">선택해주세요</option>
-                <option value="visit">직접 방문</option>
-                <option value="visitMoney">방문 및 부의금</option>
-                <option value="money">부의금만</option>
-                <option value="wreath">화환/조화</option>
-                <option value="wreathMoney">화환 및 부의금</option>
-                <option value="contact">연락/문자 위로</option>
-                <option value="all">방문, 부의금, 화환</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label>메시지 톤</label>
-            <div class="radio-group">
-                <div class="radio-option">
-                    <input type="radio" id="formal" name="tone" value="formal" checked>
-                    <label class="radio-label" for="formal">정중한</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="warm" name="tone" value="warm">
-                    <label class="radio-label" for="warm">따뜻한</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="simple" name="tone" value="simple">
-                    <label class="radio-label" for="simple">간결한</label>
-                </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar">0%</div>
             </div>
+            <p style="text-align: center; color: #666;">전체 진행률: <span id="progressText">0개 완료 / 0개 항목</span></p>
         </div>
-        
-        <div class="form-group">
-            <label for="recipientName">받는 분 성함 (선택)</label>
-            <input type="text" id="recipientName" placeholder="예: 김철수">
-        </div>
-        
-        <button onclick="generateMessage()">메시지 생성하기</button>
-        
-        <div id="messageContainer" class="message-container" style="display: none;">
-            <div class="message-header">
-                <span class="message-title">생성된 메시지</span>
-                <div class="action-buttons">
-                    <button class="btn-small btn-regenerate" onclick="generateMessage()">다시 생성</button>
-                    <button class="btn-small btn-copy" onclick="copyMessage()">복사하기</button>
-                </div>
-            </div>
-            <div id="messageText" class="message-text" contenteditable="true"></div>
-        </div>
+
+        <div class="categories" id="categoriesContainer"></div>
     </div>
-    
-    <div id="toast" class="toast"></div>
-    
+
+    <button class="reset-button" onclick="resetAll()">🔄 초기화</button>
+    <div class="save-indicator" id="saveIndicator">✓ 자동 저장됨</div>
+
     <script>
-        const messages = {
-            // 부친상 - 아들
-            son_father: {
-                visit: {
-                    formal: [
-                        "{name}바쁘신 중에도 부친상에 직접 찾아와 주셔서 깊이 감사드립니다.\n아버지께서 편안히 가실 수 있도록 함께 해주신 덕분에 큰 위로가 되었습니다.",
-                        "{name}먼 길 마다않고 부친의 마지막 길에 함께 해주셔서 진심으로 감사드립니다.\n따뜻한 위로와 격려 잊지 않겠습니다."
-                    ],
-                    warm: [
-                        "{name}어려운 시간에 직접 와주셔서 정말 감사합니다.\n아버지 편안히 보내드렸습니다. 큰 힘이 되었습니다.",
-                        "{name}바쁘신데도 찾아와 주셔서 감사합니다.\n덕분에 아버지 잘 모시고 보내드렸습니다."
-                    ],
-                    simple: [
-                        "{name}직접 찾아와 주셔서 감사합니다.\n큰 위로가 되었습니다.",
-                        "{name}바쁘신 중에 와주셔서 감사드립니다."
-                    ]
-                },
-                visitMoney: {
-                    formal: [
-                        "{name}바쁘신 중에도 직접 찾아와 주시고 정성까지 보내주셔서 깊이 감사드립니다.\n부친께서 편안히 가실 수 있었습니다.",
-                        "{name}먼 길 오시고 따뜻한 마음까지 전해주셔서 진심으로 감사드립니다.\n아버지 좋은 곳으로 가셨습니다."
-                    ],
-                    warm: [
-                        "{name}직접 와주시고 정성까지 보내주셔서 정말 감사합니다.\n아버지 편안히 보내드렸습니다.",
-                        "{name}찾아와 주시고 마음까지 써주셔서 감사합니다.\n큰 위로와 힘이 되었습니다."
-                    ],
-                    simple: [
-                        "{name}찾아와 주시고 정성 보내주셔서 감사합니다.",
-                        "{name}와주시고 마음 써주셔서 감사드립니다."
-                    ]
-                },
-                money: {
-                    formal: [
-                        "{name}부친상에 정성스런 부의를 보내주셔서 깊이 감사드립니다.\n따뜻한 마음 잘 받았습니다.",
-                        "{name}어려운 때 위로와 정성을 보내주셔서 진심으로 감사드립니다.\n아버지 편안히 모시고 보내드렸습니다."
-                    ],
-                    warm: [
-                        "{name}따뜻한 마음과 정성 보내주셔서 정말 감사합니다.\n덕분에 힘이 났습니다.",
-                        "{name}위로와 정성 보내주셔서 감사합니다.\n아버지 잘 보내드렸습니다."
-                    ],
-                    simple: [
-                        "{name}정성 보내주셔서 감사합니다.",
-                        "{name}마음 써주셔서 감사드립니다."
-                    ]
-                },
-                wreath: {
-                    formal: [
-                        "{name}부친상에 정성스런 조화를 보내주셔서 깊이 감사드립니다.\n아버지 가시는 길이 더욱 아름다웠습니다.",
-                        "{name}아름다운 화환을 보내주셔서 진심으로 감사드립니다.\n따뜻한 마음 잘 받았습니다."
-                    ],
-                    warm: [
-                        "{name}아름다운 조화 보내주셔서 정말 감사합니다.\n아버지께서도 기뻐하셨을 것 같습니다.",
-                        "{name}정성스런 화환 보내주셔서 감사합니다.\n큰 위로가 되었습니다."
-                    ],
-                    simple: [
-                        "{name}조화 보내주셔서 감사합니다.",
-                        "{name}화환 보내주셔서 감사드립니다."
-                    ]
-                },
-                contact: {
-                    formal: [
-                        "{name}부친상에 따뜻한 위로의 말씀 전해주셔서 감사드립니다.\n큰 힘이 되었습니다.",
-                        "{name}진심 어린 조의와 위로 전해주셔서 깊이 감사드립니다.\n아버지 편안히 보내드렸습니다."
-                    ],
-                    warm: [
-                        "{name}따뜻한 위로 전해주셔서 정말 감사합니다.\n마음이 많이 따뜻해졌습니다.",
-                        "{name}위로의 말씀 전해주셔서 감사합니다.\n큰 힘이 되었습니다."
-                    ],
-                    simple: [
-                        "{name}위로 전해주셔서 감사합니다.",
-                        "{name}연락 주셔서 감사드립니다."
-                    ]
-                }
+        const checklistData = {
+            death: {
+                title: "사망신고",
+                color: "purple",
+                deadline: "1개월 이내",
+                type: "general",
+                items: [
+                    {
+                        title: "사망신고서 작성",
+                        desc: "사망자의 본적지 또는 주소지 관할 읍·면·동사무소",
+                        docs: ["사망진단서 3부", "신고인 도장", "신고인 신분증"]
+                    },
+                    {
+                        title: "사망진단서 발급",
+                        desc: "1개월 이내 신고 필수 (재적등본 발생)",
+                        docs: ["사망진단서(시체검안서) 1부"]
+                    },
+                    {
+                        title: "가족관계증명서 발급",
+                        desc: "주민등록지 또는 인터넷 발급",
+                        docs: ["신분증", "가족관계증명서"]
+                    }
+                ]
             },
-            // 모친상 - 아들
-            son_mother: {
-                visit: {
-                    formal: [
-                        "{name}바쁘신 중에도 모친상에 직접 찾아와 주셔서 깊이 감사드립니다.\n어머니께서 편안히 가실 수 있도록 함께 해주신 덕분에 큰 위로가 되었습니다.",
-                        "{name}먼 길 마다않고 모친의 마지막 길에 함께 해주셔서 진심으로 감사드립니다.\n따뜻한 위로와 격려 잊지 않겠습니다."
-                    ],
-                    warm: [
-                        "{name}어려운 시간에 직접 와주셔서 정말 감사합니다.\n어머니 편안히 보내드렸습니다. 큰 힘이 되었습니다.",
-                        "{name}바쁘신데도 찾아와 주셔서 감사합니다.\n덕분에 어머니 잘 모시고 보내드렸습니다."
-                    ],
-                    simple: [
-                        "{name}직접 찾아와 주셔서 감사합니다.\n큰 위로가 되었습니다.",
-                        "{name}바쁘신 중에 와주셔서 감사드립니다."
-                    ]
-                },
-                visitMoney: {
-                    formal: [
-                        "{name}바쁘신 중에도 직접 찾아와 주시고 정성까지 보내주셔서 깊이 감사드립니다.\n모친께서 편안히 가실 수 있었습니다.",
-                        "{name}먼 길 오시고 따뜻한 마음까지 전해주셔서 진심으로 감사드립니다.\n어머니 좋은 곳으로 가셨습니다."
-                    ],
-                    warm: [
-                        "{name}직접 와주시고 정성까지 보내주셔서 정말 감사합니다.\n어머니 편안히 보내드렸습니다.",
-                        "{name}찾아와 주시고 마음까지 써주셔서 감사합니다.\n큰 위로와 힘이 되었습니다."
-                    ],
-                    simple: [
-                        "{name}찾아와 주시고 정성 보내주셔서 감사합니다.",
-                        "{name}와주시고 마음 써주셔서 감사드립니다."
-                    ]
-                },
-                money: {
-                    formal: [
-                        "{name}모친상에 정성스런 부의를 보내주셔서 깊이 감사드립니다.\n따뜻한 마음 잘 받았습니다.",
-                        "{name}어려운 때 위로와 정성을 보내주셔서 진심으로 감사드립니다.\n어머니 편안히 모시고 보내드렸습니다."
-                    ],
-                    warm: [
-                        "{name}따뜻한 마음과 정성 보내주셔서 정말 감사합니다.\n덕분에 힘이 났습니다.",
-                        "{name}위로와 정성 보내주셔서 감사합니다.\n어머니 잘 보내드렸습니다."
-                    ],
-                    simple: [
-                        "{name}정성 보내주셔서 감사합니다.",
-                        "{name}마음 써주셔서 감사드립니다."
-                    ]
-                },
-                wreath: {
-                    formal: [
-                        "{name}모친상에 정성스런 조화를 보내주셔서 깊이 감사드립니다.\n어머니 가시는 길이 더욱 아름다웠습니다.",
-                        "{name}아름다운 화환을 보내주셔서 진심으로 감사드립니다.\n따뜻한 마음 잘 받았습니다."
-                    ],
-                    warm: [
-                        "{name}아름다운 조화 보내주셔서 정말 감사합니다.\n어머니께서도 기뻐하셨을 것 같습니다.",
-                        "{name}정성스런 화환 보내주셔서 감사합니다.\n큰 위로가 되었습니다."
-                    ],
-                    simple: [
-                        "{name}조화 보내주셔서 감사합니다.",
-                        "{name}화환 보내주셔서 감사드립니다."
-                    ]
-                },
-                contact: {
-                    formal: [
-                        "{name}모친상에 따뜻한 위로의 말씀 전해주셔서 감사드립니다.\n큰 힘이 되었습니다.",
-                        "{name}진심 어린 조의와 위로 전해주셔서 깊이 감사드립니다.\n어머니 편안히 보내드렸습니다."
-                    ],
-                    warm: [
-                        "{name}따뜻한 위로 전해주셔서 정말 감사합니다.\n마음이 많이 따뜻해졌습니다.",
-                        "{name}위로의 말씀 전해주셔서 감사합니다.\n큰 힘이 되었습니다."
-                    ],
-                    simple: [
-                        "{name}위로 전해주셔서 감사합니다.",
-                        "{name}연락 주셔서 감사드립니다."
-                    ]
-                }
+            publicLeave: {
+                title: "공무원 청원휴가",
+                color: "teal",
+                deadline: "즉시 신청",
+                type: "public",
+                items: [
+                    {
+                        title: "청원휴가 신청",
+                        desc: "부모 사망 시 5일간 유급휴가 (배우자 부모 3일)",
+                        docs: ["사망진단서", "가족관계증명서"],
+                        warning: "토요일, 공휴일 포함하여 연속 계산"
+                    },
+                    {
+                        title: "소속기관 보고",
+                        desc: "직속상관 및 인사담당부서에 즉시 보고",
+                        docs: ["유선보고 후 서면제출"]
+                    },
+                    {
+                        title: "복무시스템 입력",
+                        desc: "나라일터 또는 소속기관 복무시스템에 입력",
+                        docs: ["온라인 신청"]
+                    }
+                ]
             },
-            // 빙부상 - 사위
-            soninlaw_father: {
-                visit: {
-                    formal: [
-                        "{name}바쁘신 중에도 빙부상에 직접 찾아와 주셔서 깊이 감사드립니다.\n장인어른께서 편안히 가실 수 있도록 함께 해주신 덕분에 큰 위로가 되었습니다.",
-                        "{name}먼 길 마다않고 빙부의 마지막 길에 함께 해주셔서 진심으로 감사드립니다.\n따뜻한 위로 잊지 않겠습니다."
-                    ],
-                    warm: [
-                        "{name}어려운 시간에 직접 와주셔서 정말 감사합니다.\n장인어른 편안히 보내드렸습니다. 큰 힘이 되었습니다.",
-                        "{name}바쁘신데도 찾아와 주셔서 감사합니다.\n덕분에 잘 모시고 보내드렸습니다."
-                    ],
-                    simple: [
-                        "{name}직접 찾아와 주셔서 감사합니다.\n큰 위로가 되었습니다.",
-                        "{name}바쁘신 중에 와주셔서 감사드립니다."
-                    ]
-                },
-                visitMoney: {
-                    formal: [
-                        "{name}바쁘신 중에도 빙부상에 직접 찾아와 주시고 정성까지 보내주셔서 깊이 감사드립니다.\n장인어른께서 편안히 가실 수 있었습니다.",
-                        "{name}먼 길 오시고 따뜻한 마음까지 전해주셔서 진심으로 감사드립니다.\n좋은 곳으로 가셨습니다."
-                    ],
-                    warm: [
-                        "{name}직접 와주시고 정성까지 보내주셔서 정말 감사합니다.\n장인어른 편안히 보내드렸습니다.",
-                        "{name}찾아와 주시고 마음까지 써주셔서 감사합니다.\n큰 위로와 힘이 되었습니다."
-                    ],
-                    simple: [
-                        "{name}찾아와 주시고 정성 보내주셔서 감사합니다.",
-                        "{name}와주시고 마음 써주셔서 감사드립니다."
-                    ]
-                },
-                money: {
-                    formal: [
-                        "{name}빙부상에 정성스런 부의를 보내주셔서 깊이 감사드립니다.\n따뜻한 마음 잘 받았습니다.",
-                        "{name}어려운 때 위로와 정성을 보내주셔서 진심으로 감사드립니다.\n장인어른 편안히 모시고 보내드렸습니다."
-                    ],
-                    warm: [
-                        "{name}따뜻한 마음과 정성 보내주셔서 정말 감사합니다.\n덕분에 힘이 났습니다.",
-                        "{name}위로와 정성 보내주셔서 감사합니다.\n잘 보내드렸습니다."
-                    ],
-                    simple: [
-                        "{name}정성 보내주셔서 감사합니다.",
-                        "{name}마음 써주셔서 감사드립니다."
-                    ]
-                },
-                wreath: {
-                    formal: [
-                        "{name}빙부상에 정성스런 조화를 보내주셔서 깊이 감사드립니다.\n장인어른 가시는 길이 더욱 아름다웠습니다.",
-                        "{name}아름다운 화환을 보내주셔서 진심으로 감사드립니다.\n따뜻한 마음 잘 받았습니다."
-                    ],
-                    warm: [
-                        "{name}아름다운 조화 보내주셔서 정말 감사합니다.\n큰 위로가 되었습니다.",
-                        "{name}정성스런 화환 보내주셔서 감사합니다.\n잘 보내드렸습니다."
-                    ],
-                    simple: [
-                        "{name}조화 보내주셔서 감사합니다.",
-                        "{name}화환 보내주셔서 감사드립니다."
-                    ]
-                },
-                contact: {
-                    formal: [
-                        "{name}빙부상에 따뜻한 위로의 말씀 전해주셔서 감사드립니다.\n큰 힘이 되었습니다.",
-                        "{name}진심 어린 조의와 위로 전해주셔서 깊이 감사드립니다.\n장인어른 편안히 보내드렸습니다."
-                    ],
-                    warm: [
-                        "{name}따뜻한 위로 전해주셔서 정말 감사합니다.\n마음이 많이 따뜻해졌습니다.",
-                        "{name}위로의 말씀 전해주셔서 감사합니다.\n큰 힘이 되었습니다."
-                    ],
-                    simple: [
-                        "{name}위로 전해주셔서 감사합니다.",
-                        "{name}연락 주셔서 감사드립니다."
-                    ]
-                }
+            publicBenefit: {
+                title: "공무원 복지/수당",
+                color: "indigo",
+                deadline: "1개월 이내",
+                type: "public",
+                items: [
+                    {
+                        title: "맞춤형복지 경조비 신청",
+                        desc: "부모 사망 시 복지포인트 지급 (기관별 상이)",
+                        docs: ["사망진단서", "가족관계증명서", "통장사본"],
+                        warning: "기관별 10~50만 포인트 지급"
+                    },
+                    {
+                        title: "부양가족 변경신고",
+                        desc: "부양가족 등록 변경 및 가족수당 조정",
+                        docs: ["가족관계증명서", "주민등록등본"]
+                    },
+                    {
+                        title: "상조회 지원금 신청",
+                        desc: "소속기관 상조회 경조금 신청",
+                        docs: ["상조회 신청서", "사망진단서", "통장사본"],
+                        warning: "기관별 50~200만원 지원"
+                    }
+                ]
             },
-            // 빙모상 - 사위
-            soninlaw_mother: {
-                visit: {
-                    formal: [
-                        "{name}바쁘신 중에도 빙모상에 직접 찾아와 주셔서 깊이 감사드립니다.\n장모님께서 편안히 가실 수 있도록 함께 해주신 덕분에 큰 위로가 되었습니다.",
-                        "{name}먼 길 마다않고 빙모의 마지막 길에 함께 해주셔서 진심으로 감사드립니다.\n따뜻한 위로 잊지 않겠습니다."
-                    ],
-                    warm: [
-                        "{name}어려운 시간에 직접 와주셔서 정말 감사합니다.\n장모님 편안히 보내드렸습니다. 큰 힘이 되었습니다.",
-                        "{name}바쁘신데도 찾아와 주셔서 감사합니다.\n덕분에 잘 모시고 보내드렸습니다."
-                    ],
-                    simple: [
-                        "{name}직접 찾아와 주셔서 감사합니다.\n큰 위로가 되었습니다.",
-                        "{name}바쁘신 중에 와주셔서 감사드립니다."
-                    ]
-                },
-                visitMoney: {
-                    formal: [
-                        "{name}바쁘신 중에도 빙모상에 직접 찾아와 주시고 정성까지 보내주셔서 깊이 감사드립니다.\n장모님께서 편안히 가실 수 있었습니다.",
-                        "{name}먼 길 오시고 따뜻한 마음까지 전해주셔서 진심으로 감사드립니다.\n좋은 곳으로 가셨습니다."
-                    ],
-                    warm: [
-                        "{name}직접 와주시고 정성까지 보내주셔서 정말 감사합니다.\n장모님 편안히 보내드렸습니다.",
-                        "{name}찾아와 주시고 마음까지 써주셔서 감사합니다.\n큰 위로와 힘이 되었습니다."
-                    ],
-                    simple: [
-                        "{name}찾아와 주시고 정성 보내주셔서 감사합니다.",
-                        "{name}와주시고 마음 써주셔서 감사드립니다."
-                    ]
-                },
-                money: {
-                    formal: [
-                        "{name}빙모상에 정성스런 부의를 보내주셔서 깊이 감사드립니다.\n따뜻한 마음 잘 받았습니다.",
-                        "{name}어려운 때 위로와 정성을 보내주셔서 진심으로 감사드립니다.\n장모님 편안히 모시고 보내드렸습니다."
-                    ],
-                    warm: [
-                        "{name}따뜻한 마음과 정성 보내주셔서 정말 감사합니다.\n덕분에 힘이 났습니다.",
-                        "{name}위로와 정성 보내주셔서 감사합니다.\n잘 보내드렸습니다."
-                    ],
-                    simple: [
-                        "{name}정성 보내주셔서 감사합니다.",
-                        "{name}마음 써주셔서 감사드립니다."
-                    ]
-                },
-                wreath: {
-                    formal: [
-                        "{name}빙모상에 정성스런 조화를 보내주셔서 깊이 감사드립니다.\n장모님 가시는 길이 더욱 아름다웠습니다.",
-                        "{name}아름다운 화환을 보내주셔서 진심으로 감사드립니다.\n따뜻한 마음 잘 받았습니다."
-                    ],
-                    warm: [
-                        "{name}아름다운 조화 보내주셔서 정말 감사합니다.\n큰 위로가 되었습니다.",
-                        "{name}정성스런 화환 보내주셔서 감사합니다.\n잘 보내드렸습니다."
-                    ],
-                    simple: [
-                        "{name}조화 보내주셔서 감사합니다.",
-                        "{name}화환 보내주셔서 감사드립니다."
-                    ]
-                },
-                contact: {
-                    formal: [
-                        "{name}빙모상에 따뜻한 위로의 말씀 전해주셔서 감사드립니다.\n큰 힘이 되었습니다.",
-                        "{name}진심 어린 조의와 위로 전해주셔서 깊이 감사드립니다.\n장모님 편안히 보내드렸습니다."
-                    ],
-                    warm: [
-                        "{name}따뜻한 위로 전해주셔서 정말 감사합니다.\n마음이 많이 따뜻해졌습니다.",
-                        "{name}위로의 말씀 전해주셔서 감사합니다.\n큰 힘이 되었습니다."
-                    ],
-                    simple: [
-                        "{name}위로 전해주셔서 감사합니다.",
-                        "{name}연락 주셔서 감사드립니다."
-                    ]
-                }
+            inheritance: {
+                title: "상속신고",
+                color: "green",
+                deadline: "3개월 이내",
+                type: "general",
+                items: [
+                    {
+                        title: "상속재산분할협의서 작성",
+                        desc: "공동상속인 간 재산분할 협의",
+                        docs: ["상속재산분할협의서", "인감도장"]
+                    },
+                    {
+                        title: "상속인 가족관계증명서",
+                        desc: "상속인 전원의 서류 준비",
+                        docs: ["가족관계증명서", "등본", "초본", "인감증명서"]
+                    },
+                    {
+                        title: "피상속인 서류 준비",
+                        desc: "피상속인 관련 모든 서류",
+                        docs: ["재적등본", "초본(말소자)", "제적초본"]
+                    },
+                    {
+                        title: "상속세 신고",
+                        desc: "주민등록지 관할 세무서",
+                        docs: ["상속세신고서", "재산명세서"]
+                    },
+                    {
+                        title: "한정승인/상속포기 검토",
+                        desc: "채무가 많은 경우 3개월 이내 법원 신청",
+                        docs: ["재산목록", "채무증빙서류"],
+                        warning: "공무원은 재산신고 의무 확인"
+                    }
+                ]
+            },
+            vehicle: {
+                title: "자동차 이전등록",
+                color: "orange",
+                deadline: "3개월 이내",
+                type: "general",
+                items: [
+                    {
+                        title: "자동차 소유 확인",
+                        desc: "고인의 자동차 소유 여부 확인",
+                        docs: ["자동차등록증"]
+                    },
+                    {
+                        title: "이전등록 신고",
+                        desc: "자동차 등록기관에 신고 (50만원 이하 과태료 주의)",
+                        docs: ["자동차등록증", "자동차등록원부"]
+                    },
+                    {
+                        title: "준비서류 작성",
+                        desc: "상속인 관련 서류 준비",
+                        docs: ["상속인 인감증명서", "가족관계증명서", "인감도장"]
+                    }
+                ]
+            },
+            pension: {
+                title: "유족연금 신청",
+                color: "blue",
+                deadline: "5년 이내",
+                type: "general",
+                items: [
+                    {
+                        title: "국민연금 유족연금",
+                        desc: "배우자→자녀→부모→손자녀→조부모 순",
+                        docs: ["사망진단서", "가족관계증명서"],
+                        warning: "국민연금공단 1355"
+                    },
+                    {
+                        title: "공무원연금 유족연금",
+                        desc: "부모가 공무원이었던 경우 확인",
+                        docs: ["사망진단서", "가족관계증명서"],
+                        warning: "공무원연금공단 1588-4321"
+                    },
+                    {
+                        title: "사학연금 유족연금",
+                        desc: "부모가 교직원이었던 경우",
+                        docs: ["사망진단서", "가족관계증명서"],
+                        warning: "사학연금 1588-4110"
+                    },
+                    {
+                        title: "군인연금 유족연금",
+                        desc: "부모가 직업군인이었던 경우",
+                        docs: ["사망진단서", "가족관계증명서"],
+                        warning: "국방부 1577-9090"
+                    }
+                ]
+            },
+            finance: {
+                title: "금융거래 조회",
+                color: "yellow",
+                deadline: "조속히 처리",
+                type: "general",
+                items: [
+                    {
+                        title: "금융거래조회 신청",
+                        desc: "금융감독원 소비자보호센터",
+                        docs: ["사망진단서", "고인의 가족등록", "상속인 신분증"]
+                    },
+                    {
+                        title: "예금 조회 및 인출",
+                        desc: "각종 예금, 증권계좌, 가계대출 확인",
+                        docs: ["가족관계증명서", "신분증"],
+                        warning: "안심상속 원스톱 서비스 이용"
+                    },
+                    {
+                        title: "보험금 청구",
+                        desc: "생명보험, 손해보험 등 보험금 청구",
+                        docs: ["보험증권", "사망진단서", "수익자 신분증"]
+                    },
+                    {
+                        title: "대출금 및 채무 확인",
+                        desc: "대출금, 신용카드, 보증채무 확인",
+                        docs: ["부채관련 서류", "신용정보조회"]
+                    },
+                    {
+                        title: "공무원 재산등록 변경",
+                        desc: "공무원인 자녀는 재산변동사항 신고",
+                        docs: ["재산등록시스템 입력"],
+                        warning: "상속 후 1개월 이내 신고"
+                    }
+                ]
+            },
+            tax: {
+                title: "세금 및 공과금",
+                color: "red",
+                deadline: "6개월 이내",
+                type: "general",
+                items: [
+                    {
+                        title: "상속세 신고납부",
+                        desc: "사망일로부터 6개월 이내 신고",
+                        docs: ["상속세신고서", "재산목록", "평가서류"],
+                        warning: "지연 시 가산세 부과"
+                    },
+                    {
+                        title: "취득세 신고납부",
+                        desc: "상속 부동산 취득세 (상속일로부터 6개월)",
+                        docs: ["취득세신고서", "등기부등본"]
+                    },
+                    {
+                        title: "재산세 승계",
+                        desc: "부동산 재산세 납부의무 승계",
+                        docs: ["재산세 고지서 확인"]
+                    },
+                    {
+                        title: "공과금 명의변경",
+                        desc: "전기, 가스, 수도, 전화 등 명의변경",
+                        docs: ["사망진단서", "가족관계증명서"]
+                    }
+                ]
             }
         };
 
-        // 조문객과의 관계별 메시지 변형
-        const visitorVariations = {
-            friend: { prefix: "", suffix: "친구의 마음" },
-            colleague: { prefix: "업무로 바쁘신 중에도", suffix: "동료분의 마음" },
-            boss: { prefix: "바쁘신 일정에도", suffix: "베풀어주신 은혜" },
-            subordinate: { prefix: "바쁜 중에도", suffix: "따뜻한 마음" },
-            relative: { prefix: "먼 길 마다않고", suffix: "가족의 정" },
-            teacher: { prefix: "귀한 시간 내어", suffix: "선생님의 은혜" },
-            neighbor: { prefix: "", suffix: "이웃의 정" },
-            acquaintance: { prefix: "", suffix: "따뜻한 마음" },
-            business: { prefix: "바쁘신 업무 중에도", suffix: "베풀어주신 정성" }
-        };
-        
-        function generateMessage() {
-            const mournerRelation = document.getElementById('mournerRelation').value;
-            const visitorRelation = document.getElementById('visitorRelation').value;
-            const condolenceType = document.getElementById('condolenceType').value;
-            const tone = document.querySelector('input[name="tone"]:checked').value;
-            const recipientName = document.getElementById('recipientName').value;
-            
-            if (!mournerRelation || !visitorRelation || !condolenceType) {
-                showToast('모든 필수 항목을 선택해주세요.');
-                return;
-            }
-            
-            // 기본 관계 추출 (son_father -> son_father, daughter_father -> son_father 로 통일)
-            let baseRelation = mournerRelation;
-            if (mournerRelation.startsWith('daughter_')) {
-                baseRelation = mournerRelation.replace('daughter_', 'son_');
-            } else if (mournerRelation.startsWith('grandchild_')) {
-                baseRelation = 'son_father'; // 손자/손녀는 아들 템플릿 사용
-            } else if (mournerRelation.startsWith('daughterinlaw_')) {
-                baseRelation = 'son_' + mournerRelation.split('_')[1]; // 며느리는 아들 템플릿 사용
-            } else if (mournerRelation.startsWith('spouse_')) {
-                baseRelation = 'son_father'; // 배우자는 아들 템플릿 사용
-            }
-            
-            // 조문 방식 매핑
-            let condolenceKey = condolenceType;
-            if (condolenceType === 'wreathMoney') {
-                condolenceKey = 'visitMoney'; // 화환+부의금은 방문+부의금 템플릿 사용
-            } else if (condolenceType === 'all') {
-                condolenceKey = 'visitMoney'; // 전체는 방문+부의금 템플릿 사용
-            }
-            
-            // 메시지 템플릿 가져오기
-            let messageTemplates = messages[baseRelation]?.[condolenceKey]?.[tone];
-            
-            // 템플릿이 없으면 기본값 사용
-            if (!messageTemplates) {
-                messageTemplates = messages['son_father']['visit'][tone];
-            }
-            
-            // 랜덤 선택
-            const randomIndex = Math.floor(Math.random() * messageTemplates.length);
-            let message = messageTemplates[randomIndex];
-            
-            // 조문객 관계에 따른 커스터마이징
-            const variation = visitorVariations[visitorRelation];
-            if (variation.prefix && message.includes('바쁘신')) {
-                message = message.replace(/바쁘신 중에도|바쁘신데도|바쁘신 일정에도/g, variation.prefix);
-            }
-            
-            // 이름 치환
-            message = message.replace('{name}', recipientName ? recipientName + '님, ' : '');
-            
-            // 메시지 표시
-            document.getElementById('messageText').textContent = message;
-            document.getElementById('messageContainer').style.display = 'block';
-        }
-        
-        function copyMessage() {
-            const messageText = document.getElementById('messageText').textContent;
-            
-            // 클립보드 API 사용
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(messageText).then(() => {
-                    showToast('메시지가 복사되었습니다.');
-                }).catch(() => {
-                    fallbackCopy(messageText);
-                });
-            } else {
-                fallbackCopy(messageText);
+        let completedItems = {};
+        let currentFilter = 'all';
+
+        function loadData() {
+            const saved = localStorage.getItem('deathChecklistDataV2');
+            if (saved) {
+                completedItems = JSON.parse(saved);
             }
         }
-        
-        function fallbackCopy(text) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed";
-            textArea.style.left = "-999999px";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                showToast('메시지가 복사되었습니다.');
-            } catch (err) {
-                showToast('복사에 실패했습니다. 직접 선택해서 복사해주세요.');
-            }
-            
-            document.body.removeChild(textArea);
+
+        function saveData() {
+            localStorage.setItem('deathChecklistDataV2', JSON.stringify(completedItems));
+            showSaveIndicator();
         }
-        
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            
+
+        function showSaveIndicator() {
+            const indicator = document.getElementById('saveIndicator');
+            indicator.style.display = 'block';
             setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+                indicator.style.display = 'none';
+            }, 2000);
         }
-        
-        // 엔터키로 메시지 생성
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                const activeElement = document.activeElement;
-                if (activeElement.id !== 'messageText') {
-                    e.preventDefault();
-                    generateMessage();
+
+        function filterCategories(type) {
+            currentFilter = type;
+            
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide categories
+            Object.keys(checklistData).forEach(category => {
+                const card = document.getElementById(`category-${category}`);
+                if (card) {
+                    if (type === 'all' || checklistData[category].type === type) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
                 }
+            });
+        }
+
+        function updateProgress() {
+            let totalItems = 0;
+            let completedCount = 0;
+
+            Object.keys(checklistData).forEach(category => {
+                // Only count visible categories
+                if (currentFilter === 'all' || checklistData[category].type === currentFilter) {
+                    checklistData[category].items.forEach((item, index) => {
+                        totalItems++;
+                        if (completedItems[`${category}-${index}`]) {
+                            completedCount++;
+                        }
+                    });
+                }
+            });
+
+            const percentage = totalItems > 0 ? Math.round((completedCount / totalItems) * 100) : 0;
+            
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressBar').textContent = percentage + '%';
+            document.getElementById('progressText').textContent = `${completedCount}개 완료 / ${totalItems}개 항목`;
+
+            // Update category progress
+            Object.keys(checklistData).forEach(category => {
+                let categoryCompleted = 0;
+                let categoryTotal = checklistData[category].items.length;
+                
+                checklistData[category].items.forEach((item, index) => {
+                    if (completedItems[`${category}-${index}`]) {
+                        categoryCompleted++;
+                    }
+                });
+
+                const categoryPercentage = Math.round((categoryCompleted / categoryTotal) * 100);
+                const progressElement = document.getElementById(`progress-${category}`);
+                if (progressElement) {
+                    progressElement.textContent = categoryPercentage + '%';
+                }
+            });
+        }
+
+        function toggleItem(category, index) {
+            const key = `${category}-${index}`;
+            completedItems[key] = !completedItems[key];
+            
+            const itemElement = document.getElementById(`item-${key}`);
+            if (completedItems[key]) {
+                itemElement.classList.add('completed');
+            } else {
+                itemElement.classList.remove('completed');
             }
-        });
+            
+            updateProgress();
+            saveData();
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('categoriesContainer');
+            container.innerHTML = '';
+
+            Object.keys(checklistData).forEach(category => {
+                const data = checklistData[category];
+                const categoryHtml = `
+                    <div class="category-card" id="category-${category}">
+                        <div class="category-header ${data.color}">
+                            <div class="category-title">
+                                ${data.title}
+                                ${data.type === 'public' ? '<span class="category-badge">공무원</span>' : ''}
+                            </div>
+                            <div class="category-deadline">⏰ ${data.deadline}</div>
+                            <div class="category-progress" id="progress-${category}">0%</div>
+                        </div>
+                        <div class="checklist">
+                            ${data.items.map((item, index) => {
+                                const key = `${category}-${index}`;
+                                const isCompleted = completedItems[key];
+                                return `
+                                    <div class="checklist-item ${isCompleted ? 'completed' : ''}" id="item-${key}">
+                                        <input type="checkbox" 
+                                               class="checkbox" 
+                                               ${isCompleted ? 'checked' : ''}
+                                               onchange="toggleItem('${category}', ${index})">
+                                        <div class="checklist-text">
+                                            <div class="checklist-title">${item.title}</div>
+                                            <div class="checklist-desc">${item.desc}</div>
+                                            ${item.docs && item.docs.length > 0 ? `
+                                                <div class="documents">
+                                                    📎 필요서류: 
+                                                    ${item.docs.map(doc => `<span class="doc-tag">${doc}</span>`).join('')}
+                                                </div>
+                                            ` : ''}
+                                            ${item.warning ? `
+                                                <div class="deadline-warning">
+                                                    ⚠️ ${item.warning}
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += categoryHtml;
+            });
+        }
+
+        function resetAll() {
+            if (confirm('모든 체크리스트를 초기화하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
+                completedItems = {};
+                localStorage.removeItem('deathChecklistDataV2');
+                renderCategories();
+                updateProgress();
+                alert('체크리스트가 초기화되었습니다.');
+            }
+        }
+
+        // Initialize
+        loadData();
+        renderCategories();
+        updateProgress();
     </script>
 </body>
 </html>
