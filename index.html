@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사망 행정처리 체크리스트</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .progress-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            border-radius: 15px;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-header {
+            padding: 20px;
+            color: white;
+            position: relative;
+        }
+
+        .category-header.purple { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .category-header.green { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .category-header.orange { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .category-header.blue { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .category-header.yellow { background: linear-gradient(135deg, #fa709a, #fee140); }
+        .category-header.red { background: linear-gradient(135deg, #f43b47, #453a94); }
+
+        .category-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .category-deadline {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .category-progress {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .checklist {
+            padding: 20px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .checklist-item:hover {
+            background: #e9ecef;
+        }
+
+        .checklist-item.completed {
+            background: #d4edda;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .checklist-text {
+            flex: 1;
+        }
+
+        .checklist-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .checklist-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .documents {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .doc-tag {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            font-size: 11px;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+
+        .reset-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(220,53,69,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .reset-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(220,53,69,0.4);
+        }
+
+        .save-indicator {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .deadline-warning {
+            color: #dc3545;
+            font-weight: bold;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏛️ 사망 행정처리 체크리스트</h1>
+            <p>사망 후 필요한 모든 행정절차를 체계적으로 관리하세요</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar">0%</div>
+            </div>
+            <p style="text-align: center; color: #666;">전체 진행률: <span id="progressText">0개 완료 / 0개 항목</span></p>
+        </div>
+
+        <div class="categories" id="categoriesContainer"></div>
+    </div>
+
+    <button class="reset-button" onclick="resetAll()">🔄 초기화</button>
+    <div class="save-indicator" id="saveIndicator">✓ 자동 저장됨</div>
+
+    <script>
+        const checklistData = {
+            death: {
+                title: "사망신고",
+                color: "purple",
+                deadline: "1개월 이내",
+                items: [
+                    {
+                        title: "사망신고서 작성",
+                        desc: "사망자의 본적지 또는 주소지 관할 읍·면·동사무소",
+                        docs: ["사망진단서 3부", "신고인 도장", "신고인 신분증"]
+                    },
+                    {
+                        title: "사망진단서 발급",
+                        desc: "1개월 이내 신고 필수 (재적등본 발생)",
+                        docs: ["사망진단서(시체검안서) 1부"]
+                    },
+                    {
+                        title: "가족관계증명서 발급",
+                        desc: "주민등록지 또는 인터넷 발급",
+                        docs: ["신분증", "가족관계증명서"]
+                    }
+                ]
+            },
+            inheritance: {
+                title: "상속신고",
+                color: "green",
+                deadline: "3개월 이내",
+                items: [
+                    {
+                        title: "상속재산분할협의서 작성",
+                        desc: "공동상속인 간 재산분할 협의",
+                        docs: ["상속재산분할협의서", "인감도장"]
+                    },
+                    {
+                        title: "상속인 가족관계증명서",
+                        desc: "상속인 전원의 서류 준비",
+                        docs: ["가족관계증명서", "등본", "초본", "인감증명서"]
+                    },
+                    {
+                        title: "피상속인 서류 준비",
+                        desc: "피상속인 관련 모든 서류",
+                        docs: ["재적등본", "초본(말소자)", "제적초본"]
+                    },
+                    {
+                        title: "상속세 신고",
+                        desc: "주민등록지 관할 세무서",
+                        docs: ["상속세신고서", "재산명세서"]
+                    }
+                ]
+            },
+            vehicle: {
+                title: "자동차 이전등록",
+                color: "orange",
+                deadline: "3개월 이내",
+                items: [
+                    {
+                        title: "자동차 소유 확인",
+                        desc: "고인의 자동차 소유 여부 확인",
+                        docs: ["자동차등록증"]
+                    },
+                    {
+                        title: "이전등록 신고",
+                        desc: "자동차 등록기관에 신고 (50만원 이하 과태료 주의)",
+                        docs: ["자동차등록증", "자동차등록원부"]
+                    },
+                    {
+                        title: "준비서류 작성",
+                        desc: "상속인 관련 서류 준비",
+                        docs: ["상속인 인감증명서", "가족관계증명서", "인감도장"]
+                    }
+                ]
+            },
+            pension: {
+                title: "유족연금 신청",
+                color: "blue",
+                deadline: "5년 이내",
+                items: [
+                    {
+                        title: "연금 수급권자 확인",
+                        desc: "배우자→자녀→부모→손자녀→조부모 순",
+                        docs: ["사망진단서", "가족관계증명서"]
+                    },
+                    {
+                        title: "유족연금 신청서 작성",
+                        desc: "국민연금공단 제출 (☎1355)",
+                        docs: ["사망일시금 신청서", "제3자계좌고서", "합의서"]
+                    },
+                    {
+                        title: "구비서류 준비",
+                        desc: "모든 필요서류 준비 및 제출",
+                        docs: ["법원판결문", "사망일시금 구비서류", "통장사본"]
+                    }
+                ]
+            },
+            finance: {
+                title: "금융거래 조회",
+                color: "yellow",
+                deadline: "조속히 처리",
+                items: [
+                    {
+                        title: "금융거래조회 신청",
+                        desc: "금융감독원 소비자보호센터",
+                        docs: ["사망진단서", "고인의 가족등록", "상속인 신분증"]
+                    },
+                    {
+                        title: "예금 조회",
+                        desc: "각종 예금, 증권계좌, 가계대출 확인",
+                        docs: ["가족관계증명서", "신분증"]
+                    },
+                    {
+                        title: "대출금 확인",
+                        desc: "대출금, 신용카드 내역 확인",
+                        docs: ["부채관련 서류", "신용카드"]
+                    },
+                    {
+                        title: "보증채무 확인",
+                        desc: "개인이 보증채무에 대한 유무 확인",
+                        docs: ["보증계약 관련 서류"]
+                    }
+                ]
+            },
+            tax: {
+                title: "유가증권 및 상속세",
+                color: "red",
+                deadline: "6개월 이내",
+                items: [
+                    {
+                        title: "상속세 신고",
+                        desc: "사망한 날로부터 6개월 이내 등록세 납부",
+                        docs: ["상속세 신고서", "재산목록"]
+                    },
+                    {
+                        title: "신고기간 확인",
+                        desc: "기한 경과 시 가산금 부과 주의",
+                        docs: ["기한문의는 관할 세무서"]
+                    },
+                    {
+                        title: "유가증권 확인",
+                        desc: "주식, 채권 등 유가증권 처리",
+                        docs: ["유가증권 관련 서류"]
+                    }
+                ]
+            }
+        };
+
+        let completedItems = {};
+
+        function loadData() {
+            const saved = localStorage.getItem('deathChecklistData');
+            if (saved) {
+                completedItems = JSON.parse(saved);
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('deathChecklistData', JSON.stringify(completedItems));
+            showSaveIndicator();
+        }
+
+        function showSaveIndicator() {
+            const indicator = document.getElementById('saveIndicator');
+            indicator.style.display = 'block';
+            setTimeout(() => {
+                indicator.style.display = 'none';
+            }, 2000);
+        }
+
+        function updateProgress() {
+            let totalItems = 0;
+            let completedCount = 0;
+
+            Object.keys(checklistData).forEach(category => {
+                checklistData[category].items.forEach((item, index) => {
+                    totalItems++;
+                    if (completedItems[`${category}-${index}`]) {
+                        completedCount++;
+                    }
+                });
+            });
+
+            const percentage = totalItems > 0 ? Math.round((completedCount / totalItems) * 100) : 0;
+            
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressBar').textContent = percentage + '%';
+            document.getElementById('progressText').textContent = `${completedCount}개 완료 / ${totalItems}개 항목`;
+
+            // Update category progress
+            Object.keys(checklistData).forEach(category => {
+                let categoryCompleted = 0;
+                let categoryTotal = checklistData[category].items.length;
+                
+                checklistData[category].items.forEach((item, index) => {
+                    if (completedItems[`${category}-${index}`]) {
+                        categoryCompleted++;
+                    }
+                });
+
+                const categoryPercentage = Math.round((categoryCompleted / categoryTotal) * 100);
+                const progressElement = document.getElementById(`progress-${category}`);
+                if (progressElement) {
+                    progressElement.textContent = categoryPercentage + '%';
+                }
+            });
+        }
+
+        function toggleItem(category, index) {
+            const key = `${category}-${index}`;
+            completedItems[key] = !completedItems[key];
+            
+            const itemElement = document.getElementById(`item-${key}`);
+            if (completedItems[key]) {
+                itemElement.classList.add('completed');
+            } else {
+                itemElement.classList.remove('completed');
+            }
+            
+            updateProgress();
+            saveData();
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('categoriesContainer');
+            container.innerHTML = '';
+
+            Object.keys(checklistData).forEach(category => {
+                const data = checklistData[category];
+                const categoryHtml = `
+                    <div class="category-card">
+                        <div class="category-header ${data.color}">
+                            <div class="category-title">${data.title}</div>
+                            <div class="category-deadline">⏰ ${data.deadline}</div>
+                            <div class="category-progress" id="progress-${category}">0%</div>
+                        </div>
+                        <div class="checklist">
+                            ${data.items.map((item, index) => {
+                                const key = `${category}-${index}`;
+                                const isCompleted = completedItems[key];
+                                return `
+                                    <div class="checklist-item ${isCompleted ? 'completed' : ''}" id="item-${key}">
+                                        <input type="checkbox" 
+                                               class="checkbox" 
+                                               ${isCompleted ? 'checked' : ''}
+                                               onchange="toggleItem('${category}', ${index})">
+                                        <div class="checklist-text">
+                                            <div class="checklist-title">${item.title}</div>
+                                            <div class="checklist-desc">${item.desc}</div>
+                                            ${item.docs && item.docs.length > 0 ? `
+                                                <div class="documents">
+                                                    📎 필요서류: 
+                                                    ${item.docs.map(doc => `<span class="doc-tag">${doc}</span>`).join('')}
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += categoryHtml;
+            });
+        }
+
+        function resetAll() {
+            if (confirm('모든 체크리스트를 초기화하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
+                completedItems = {};
+                localStorage.removeItem('deathChecklistData');
+                renderCategories();
+                updateProgress();
+                alert('체크리스트가 초기화되었습니다.');
+            }
+        }
+
+        // Initialize
+        loadData();
+        renderCategories();
+        updateProgress();
+    </script>
+</body>
+</html>
